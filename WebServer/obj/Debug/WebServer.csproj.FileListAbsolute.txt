@@ -1,0 +1,9 @@
+C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.csprojAssemblyReference.cache
+C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.csproj.CoreCompileInputs.cache
+C:\Users\volod\Source\Repos\WebServer\WebServer\bin\Debug\WebServer.dll
+C:\Users\volod\Source\Repos\WebServer\WebServer\bin\Debug\WebServer.pdb
+C:\Users\volod\Source\Repos\WebServer\WebServer\bin\Debug\System.ValueTuple.dll
+C:\Users\volod\Source\Repos\WebServer\WebServer\bin\Debug\System.ValueTuple.xml
+C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.csproj.CopyComplete
+C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.dll
+C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.pdb

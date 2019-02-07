@@ -1,0 +1,12 @@
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\bin\Debug\TestWebApp.exe.config
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\bin\Debug\TestWebApp.exe
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\bin\Debug\TestWebApp.pdb
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\bin\Debug\WebServer.dll
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\bin\Debug\System.ValueTuple.dll
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\bin\Debug\WebServer.pdb
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\bin\Debug\System.ValueTuple.xml
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.csprojAssemblyReference.cache
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.csproj.CoreCompileInputs.cache
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.csproj.CopyComplete
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.exe
+C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.pdb
