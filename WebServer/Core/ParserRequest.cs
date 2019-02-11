@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebServer.Core
 {
@@ -10,28 +7,28 @@ namespace WebServer.Core
     {
         private ParserRequest() { }
 
-        public static Dictionary<String, String> GET(Request request)
+        public static Dictionary<string, string> Get(Request request)
         {
-            if (request == null) throw new NullReferenceException();
-            if (!request.path.Contains("?")) return default(Dictionary<String, String>);
+            if (request == null) throw new NullReferenceException(nameof(request));
+            if (!request.path.Contains("?")) return default(Dictionary<string, string>);
 
-            var Querys = new Dictionary<String, String>();
-
+            var queries = new Dictionary<string, string>();
             var path = request.path;
             var index = path.IndexOf("?");
-            var _querys = request.path.Substring(index + 1);
+            var _queries = request.path.Substring(index + 1);
 
-            foreach (var query in _querys.Split(new char[] { '&' }))
+            foreach (var query in _queries.Split('&'))
             {
-                var item = query.Split(new char[] { '=' });
-                Querys.Add(item[0], item[1]);
+                var item = query.Split('=');
+                queries.Add(item[0], item[1]);
             }
 
-            return Querys;
+            return queries;
         }
-        public static Dictionary<String, String> Post(Request request)
+
+        public static Dictionary<string, string> Post(Request request)
         {
-            return default(Dictionary<String, String>);
+            return default(Dictionary<string, string>);
         }
     }
 }

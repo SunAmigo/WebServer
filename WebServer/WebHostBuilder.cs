@@ -1,35 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebServer
 {
-    public class WebHostBuilder
+    public sealed class WebHostBuilder
     {
-        private WebHost host;
+        private WebHost _host;
 
-        public WebHostBuilder()
+        public WebHost Build(int port, string path, Type startupType)
         {
-            host = new WebHost(8888);
-        }
+            _host = new WebHost(port) {WebRootPath = path, StartupClass = startupType};
 
-        public WebHostBuilder UseStartup<T>()
-        {
-            host.StartupClass = typeof(T);
-            return this;
-        }
-
-        public WebHostBuilder UseWebRoot(String path)
-        {
-            host.WebRootPath = path;
-            return this;
-        }
-
-        public WebHost Build()
-        {
-            return host;
+            return _host;
         }
     }
 }

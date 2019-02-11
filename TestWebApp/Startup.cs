@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TestWebApp.Services;
+using TestWebApp.Services.Interfaces;
+using WebServer.Core.Configuration;
 using WebServer.Core.DependencyInjection;
-using WebServer.Core.Configere;
 
 namespace TestWebApp
 {
-    class Startup
+    internal class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
@@ -37,16 +34,16 @@ namespace TestWebApp
                 next?.Invoke(context);
             });
 
-            app.UseMap("/index", (context) =>
+            app.UseMap("/index", context =>
             {
                 context.Response.Write("Index");
             });
-            app.UseMap("/about", (context) =>
+            app.UseMap("/about", context =>
             {
                 context.Response.Write("About");
             });
 
-            app.UseMap("/home/careers", (context) =>
+            app.UseMap("/home/careers", context =>
             {
                 context.Response.Write("Careers");
             });          

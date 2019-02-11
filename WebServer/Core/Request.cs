@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using WebServer.Core;
 
 namespace WebServer.Core
 {
     public class Request
     {
-        public Dictionary<String, String> Querys; //GET
-        public Dictionary<String, String> Form;   //Post
+        public Dictionary<string, string> Queries; //GET
+        public Dictionary<string, string> Form;   //Post
 
-        public String type { get; set; }
-        public String path { get; set; }
-        public String host { get; set; }
-        public String userAgent { get; set; }
-        public String language { get; set; }
+        public string type { get; set; }
+        public string path { get; set; }
+        public string host { get; set; }
+        public string userAgent { get; set; }
+        public string language { get; set; }
 
-        private Request(String type, String path, String host, String userAgent, String language)
+        private Request(string type, string path, string host, string userAgent, string language)
         {
             this.type = type;
             this.path = path;
@@ -26,15 +25,15 @@ namespace WebServer.Core
 
             if (type.Contains("GET"))
             {
-                Querys = ParserRequest.GET(this);
+                Queries = ParserRequest.Get(this);
             }
         }
 
-        public static Request GetRequest(String msg)
+        public static Request GetRequest(string msg)
         {
-            if (String.IsNullOrEmpty(msg)) return null;
+            if (string.IsNullOrEmpty(msg)) return null;
 
-            String[] tokents = msg.Split(new char[] { '\n' });
+            var tokens = msg.Split(new char[] { '\n' });
 
             //var type = (from tokentLine in tokents
             //            where tokentLine.Contains("HTTP")
@@ -42,43 +41,41 @@ namespace WebServer.Core
             //            .FirstOrDefault();
             var type = "GET";
 
-            var path = (from tokentLine in tokents
-                        where tokentLine.Contains("HTTP")
-                        select tokentLine.Split(' ')[1].ToString())
+            var path = (from tokenLine in tokens
+                        where tokenLine.Contains("HTTP")
+                        select tokenLine.Split(' ')[1])
                         .FirstOrDefault()
-                        .ToLower();
+                        ?.ToLower();
 
-            var host = (from tokentLine in tokents
-                        where tokentLine.Contains("Host")
-                        select tokentLine.Split(':')[1] + ":" + tokentLine.Split(':')[2])
+            var host = (from tokenLine in tokens
+                        where tokenLine.Contains("Host")
+                        select tokenLine.Split(':')[1] + ":" + tokenLine.Split(':')[2])
                        .FirstOrDefault();
 
-            var userAgent = (from tokentLine in tokents
-                             where tokentLine.Contains("User-Agent")
-                             select tokentLine.Split(':')[1].ToString())
+            var userAgent = (from tokenLine in tokens
+                             where tokenLine.Contains("User-Agent")
+                             select tokenLine.Split(':')[1].ToString())
                              .FirstOrDefault();
-            var language = (from tokentLine in tokents
-                            where tokentLine.Contains("Accept-Language")
-                            select tokentLine.Split(new char[] { ':', ';' })[1].ToString())
+            var language = (from tokenLine in tokens
+                            where tokenLine.Contains("Accept-Language")
+                            select tokenLine.Split(new char[] { ':', ';' })[1].ToString())
                             .FirstOrDefault();
             var request = new Request(type, path, host, userAgent, language);
 
-
-
-            #region  Console
             Logger.Log($"Request:\n{request}");
             Console.WriteLine();
-            #endregion
 
             return request;
         }
-        public static Request PostRequest(String msg)
+
+        public static Request PostRequest(string msg)
         {
             return default(Request);
         }
+
         public override string ToString()
         {
-            return String.Format("Type: {0}\nPath: {1}\nHost: {2}\nUserAgent: {3}\nLanguage: {4}", type, path, host, userAgent, language);
+            return $"Type: {type}\nPath: {path}\nHost: {host}\nUserAgent: {userAgent}\nLanguage: {language}";
         }
     }
 }

@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 using System.IO;
 using WebServer;
 
 namespace TestWebApp
 {
-    class Program
+    internal sealed class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            var port = int.Parse(ConfigurationManager.AppSettings["WebHostPort"]);
             var host = new WebHostBuilder()
-                .UseWebRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>()
-                .Build();
+                .Build(port, Directory.GetCurrentDirectory(), 
+                    typeof(Startup));
 
             host.Run();
         }

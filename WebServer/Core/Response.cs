@@ -1,68 +1,57 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using WebServer.Core;
 
 namespace WebServer.Core
 {
     public class Response
     {
-        private NetworkStream _stream;
+        private bool _connected = true;
+        private readonly NetworkStream _stream;
 
-        public String Status { get; set; } = "200 OK";
-        public String Mime   { get; set; } = "text/html";
-
-        private Boolean connected { get; set; } = true;
-
-        public Boolean isConnected
-        {
-            get { return connected; }
-        }
+        public string Status { get; set; } = "200 OK";
+        public string Mime { get; set; } = "text/html";
 
         public Response(NetworkStream stream)
         {
             if (stream != null)
-                this._stream = stream;
+                _stream = stream;
         }
 
-        public void Write(String data)
+        public void Write(string data)
         {
-            if (connected == true) _write(data);
-            //Console.WriteLine();
+            if (_connected) _write(data);
         }
-        private void _write(String data)
+
+        private void _write(string data)
         {
             var writer = new StreamWriter(_stream);
+            var dataBytes = Encoding.Default.GetBytes(data);
 
-            byte[] _data = Encoding.Default.GetBytes(data);
-
-            #region  Console
             Logger.Log("Response:");
-            Logger.Log(String.Format("{0} {1}\r\nServer: {2}\r\nContent-Language: {3}\r\nContent-Type: {4}\r\n" +
-      "Accept-Range: bytes\r\nContent-Length:{5}\r\nConnection: close\r\n", WebHost.VERSION, Status, WebHost.SERVERNAME, "ua", Mime, _data.Length));
-            #endregion
+            Logger.Log(
+                $"{WebHost.Version} {Status}{Environment.NewLine}Server: {WebHost.ServerName}{Environment.NewLine}Content-Language: {"ua"}{Environment.NewLine}Content-Type: {Mime}{Environment.NewLine}" +
+                $"Accept-Range: bytes{Environment.NewLine}Content-Length:{dataBytes.Length}{Environment.NewLine}Connection: close{Environment.NewLine}");
 
-            writer.WriteLine(String.Format("{0} {1}\r\nServer: {2}\r\nContent-Language: {3}\r\nContent-Type: {4}\r\n" +
-                "Accept-Range: bytes\r\nContent-Length:{5}\r\nConnection: close\r\n", WebHost.VERSION, Status, WebHost.SERVERNAME, "ua", Mime, _data.Length));
+            writer.WriteLine(
+                $"{WebHost.Version} {Status}{Environment.NewLine}Server: {WebHost.ServerName}{Environment.NewLine}Content-Language: {"ua"}{Environment.NewLine}Content-Type: {Mime}{Environment.NewLine}" +
+                $"Accept-Range: bytes{Environment.NewLine}Content-Length:{dataBytes.Length}{Environment.NewLine}Connection: close{Environment.NewLine}");
             writer.Flush();
 
             try
             {
-                _stream.Write(_data, 0, _data.Length);
+                _stream.Write(dataBytes, 0, dataBytes.Length);
             }
             catch (Exception ex)
             {
-                Logger.Error($"Eror{ex.Message}");
+                Logger.Error($"Error{ex.Message}");
                 Console.WriteLine();
             }
             finally
             {
-                connected = false;
+                _connected = false;
             }
         }
-
-
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebServer.Core.MiddleWare
 {
@@ -10,9 +6,6 @@ namespace WebServer.Core.MiddleWare
     {
         public MiddleWareBase _next;
 
-        public virtual void Invoke(WebContext context)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Invoke(WebContext context);
     }
 }
