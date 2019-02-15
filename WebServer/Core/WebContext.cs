@@ -1,58 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using WebServer.Core.DependencyInjection;
+using System.Reflection;
 
 namespace WebServer.Core
 {
     public class WebContext
     {
-        public ShareInfo items;
+        public ShareInfo items { get; } = new ShareInfo();
+        public Request Request { get; }
+        public Response Response { get; }
 
-        private Request _request;
-        private Response _response;
+        public Assembly Assembly { get; set; }
+
         private TcpClient _client;
 
-        #region Properties
-        public Request Request
-        {
-            get { return _request; }
-        }
-        public Response Response
-        {
-            get { return _response; }
-        }
-
-        #endregion
-
-        public WebContext(TcpClient client)
+        public WebContext(TcpClient client,Assembly asm)
         {
             this._client = client;
             var (type, msg) = GetStringReqsues(_client.GetStream());
             switch (type)
             {
-                case "GET": _request = Request.GetRequest(msg); break;
+                case "GET": Request = RequestBuilder.GetRequest(msg); break;
                 default: Logger.Error("Method not recognized!"); break;
             }
-            _response = new Response(client.GetStream());
-
-            items = new ShareInfo();
+            Response = new Response(client.GetStream());
+            Assembly = asm;
 
         }
 
         private (String type, String msg) GetStringReqsues(NetworkStream stream)
         {
+            const char newLine = '\n';
+
             var reader = new StreamReader(stream);
             var msg = default(String);
 
             while (reader.Peek() != -1)
             {
-                msg += reader.ReadLine() + "\n";
+                msg += reader.ReadLine() + newLine;
             }
 
             if (msg == null)
@@ -61,10 +49,10 @@ namespace WebServer.Core
                 throw new Exception("Request string is empty");
             }
 
-            var type = (from line in msg.Split(new char[] { '\n' })
+            var type = (from line in msg.Split(newLine)
                         where line.Contains("HTTP")
                         select line.Split(' ')[0].ToString())
-                       .FirstOrDefault() ?? "";
+                       .FirstOrDefault() ?? String.Empty;
 
             return (type, msg);
         }

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebServer.Core.DependencyInjection;
-using WebServer.Core.Configere;
+using WebServer.Core.Configuration;
+using WebServer.Core.MVC;
 
 namespace TestWebApp
 {
@@ -19,23 +20,23 @@ namespace TestWebApp
 
         public void Configure(ApplicationBuilder app)
         {
-            app.Use((context, next) =>
-            {
-                context.items["cache"] = "1234567890";
-                next?.Invoke(context);
-            });
+            //app.Use((context, next) =>
+            //{
+            //    context.items["cache"] = "1234567890";
+            //    next?.Invoke(context);
+            //});
 
-            app.Use((context, next) =>
-            {
-                var sender = context.GetService<IMessageSender>();
-                var time = context.GetService<TimeService>();
+            //app.Use((context, next) =>
+            //{
+            //    var sender = context.GetService<IMessageSender>();
+            //    var time = context.GetService<TimeService>();
 
-                //context.Response.Write(sender.Send());              
-                context.Response.Write(time.GetTime());
+            //        //context.Response.Write(sender.Send());              
+            //        context.Response.Write(time.GetTime());
 
-                //context.Response.Write(context.items["cache"]);
-                next?.Invoke(context);
-            });
+            //        //context.Response.Write(context.items["cache"]);
+            //        next?.Invoke(context);
+            //});
 
             app.UseMap("/index", (context) =>
             {
@@ -49,9 +50,15 @@ namespace TestWebApp
             app.UseMap("/home/careers", (context) =>
             {
                 context.Response.Write("Careers");
-            });          
+            });
 
-            app.UseMiddleWare<TokenMiddleWare>();
+            //app.UseMiddleWare<TokenMiddleWare>();
+
+            app.UseMVC(
+                name     : "default",
+                template : @"{controller}/{action}",
+                _default: "controller=Home/action=index"
+                );
         }
     }
 }

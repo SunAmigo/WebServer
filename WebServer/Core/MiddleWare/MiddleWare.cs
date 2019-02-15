@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebServer.Core.Configere;
-using WebServer.Core.MiddleWare;
-using static WebServer.Core.Configere.ApplicationBuilder;
 
 namespace WebServer.Core.MiddleWare
 {

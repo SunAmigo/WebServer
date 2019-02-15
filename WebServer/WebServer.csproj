@@ -44,16 +44,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Configere\ApplicationBuilder.cs" />
+    <Compile Include="Core\Configuration\ApplicationBuilder.cs" />
     <Compile Include="Core\DependencyInjection\IServiceCollection.cs" />
     <Compile Include="Core\DependencyInjection\Service.cs" />
     <Compile Include="Core\DependencyInjection\ServiceCollection.cs" />
+    <Compile Include="Core\MVC\ControllerInvoker.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\MiddleWare\IMiddleWare.cs" />
     <Compile Include="Core\MiddleWare\MiddleWare.cs" />
     <Compile Include="Core\MiddleWare\MiddleWareBase.cs" />
+    <Compile Include="Core\MVC\Result\HtmlResult.cs" />
+    <Compile Include="Core\MVC\Result\IActionResult.cs" />
+    <Compile Include="Core\MVC\Result\JsonResult.cs" />
+    <Compile Include="Core\MVC\ParserRoute.cs" />
+    <Compile Include="Core\MVC\Result\Redirect.cs" />
+    <Compile Include="Core\MVC\RouteMVC.cs" />
+    <Compile Include="Core\MVC\RouteValidator.cs" />
+    <Compile Include="Core\MVC\Result\ViewResult.cs" />
     <Compile Include="Core\ParserRequest.cs" />
     <Compile Include="Core\Request.cs" />
+    <Compile Include="Core\RequestBuilder.cs" />
     <Compile Include="Core\Response.cs" />
     <Compile Include="Core\ShareInfo.cs" />
     <Compile Include="Core\WebContext.cs" />
@@ -61,9 +71,7 @@
     <Compile Include="WebHost.cs" />
     <Compile Include="WebHostBuilder.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\MVC\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

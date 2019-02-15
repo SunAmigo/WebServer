@@ -10,3 +10,15 @@ C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.csproj.Cor
 C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.csproj.CopyComplete
 C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.exe
 C:\Users\volod\Source\Repos\WebServer\TestWebApp\obj\Debug\TestWebApp.pdb
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\obj\Debug\TestWebApp.csprojAssemblyReference.cache
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\obj\Debug\TestWebApp.csproj.CoreCompileInputs.cache
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\obj\Debug\TestWebApp.exe
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\obj\Debug\TestWebApp.pdb
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\TestWebApp.exe.config
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\TestWebApp.exe
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\TestWebApp.pdb
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\WebServer.dll
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\System.ValueTuple.dll
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\WebServer.pdb
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\System.ValueTuple.xml
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\obj\Debug\TestWebApp.csproj.CopyComplete

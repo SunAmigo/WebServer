@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace WebServer.Core.DependencyInjection
 {
-    public class ServiceCollection : IServiceCollection
+    public sealed class ServiceCollection : IServiceCollection
     {
         private static readonly ServiceCollection instance = new ServiceCollection();
-        List<Service> services = new List<Service>();
+        private readonly List<Service> _services = new List<Service>();
 
         private ServiceCollection() { }
         public static ServiceCollection GetInstance()
@@ -19,7 +19,7 @@ namespace WebServer.Core.DependencyInjection
         }
         public void AddService<TInterface, T>()
         {
-            services.Add(
+            _services.Add(
                 new Service(typeof(TInterface),
                 typeof(T)
                 ));
@@ -31,9 +31,9 @@ namespace WebServer.Core.DependencyInjection
         }
         public T GetService<T>()
         {
-            foreach (var service in services)
+            foreach (var service in _services)
             {
-                var typeService = service.Servicetype;
+                var typeService = service.ServiceType;
                 if (typeof(T) == typeService)
                 {
                     return (T)Activator.CreateInstance(service.ImplementationType);

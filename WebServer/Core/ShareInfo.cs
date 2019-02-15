@@ -8,7 +8,7 @@ namespace WebServer.Core
 {
     public class ShareInfo
     {
-        private Dictionary<dynamic, dynamic> _dictionary;
+        private readonly Dictionary<dynamic, dynamic> _dictionary;
 
         public ShareInfo()
         {
@@ -16,10 +16,7 @@ namespace WebServer.Core
         }
         public dynamic this[object obj]
         {
-            get
-            {
-                return _dictionary[obj];
-            }
+            get => _dictionary[obj];
             set
             {
                 if (!_dictionary.ContainsKey(obj))

@@ -8,13 +8,13 @@ namespace WebServer.Core.DependencyInjection
 {
     public class Service
     {
-        public Type Servicetype;
+        public Type ServiceType;
         public Type ImplementationType;
 
-        public Service(Type Servicetype, Type ImplementationType)
+        public Service(Type serviceType, Type implementationType)
         {
-            this.Servicetype = Servicetype;
-            this.ImplementationType = ImplementationType;
+            ServiceType = serviceType;
+            ImplementationType = implementationType;
         }
 
     }

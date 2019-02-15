@@ -10,20 +10,15 @@ namespace WebServer.Core
     {
         private ParserRequest() { }
 
-        public static Dictionary<String, String> GET(Request request)
+        public static Dictionary<String, String> GET(String query)
         {
-            if (request == null) throw new NullReferenceException();
-            if (!request.path.Contains("?")) return default(Dictionary<String, String>);
+            if (String.IsNullOrEmpty(query)) return default(Dictionary<String, String>);
 
             var Querys = new Dictionary<String, String>();
-
-            var path = request.path;
-            var index = path.IndexOf("?");
-            var _querys = request.path.Substring(index + 1);
-
-            foreach (var query in _querys.Split(new char[] { '&' }))
+    
+            foreach (var _query in query.Split(new char[] { '&' }))
             {
-                var item = query.Split(new char[] { '=' });
+                var item = _query.Split(new char[] { '=' });
                 Querys.Add(item[0], item[1]);
             }
 

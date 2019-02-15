@@ -1,41 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using System.Reflection;
 using WebServer.Core;
-using WebServer.Core.Configere;
+using WebServer.Core.Configuration;
 using WebServer.Core.DependencyInjection;
 
 namespace WebServer
 {
     public class WebHost
     {
-        public const String VERSION = "HTTP/1.0";
-        public const String SERVERNAME = "WebServer/1.0";
+        private readonly TcpListener listener;
 
-        private TcpListener listener;
+        public const String Version = "HTTP/1.0";
+        public const String ServerName = "WebServer/1.0";
 
-        private Type _startupClass;
-        private String _webRootPath;
-
-        #region Property
-        public Type StartupClass
-        {
-            get { return _startupClass; }
-            set { _startupClass = value; }
-        }
-
-        public String WebRootPath
-        {
-            get { return _webRootPath; }
-            set { _webRootPath = value; }
-        }
-        #endregion
+        public Type StartupClass { get; set; }   
+        public string WebRootPath { get; set; }
 
         public WebHost(Int32 port)
         {
@@ -46,24 +28,27 @@ namespace WebServer
         {
             listener.Start();
 
-            #region  
-            var obj = Activator.CreateInstance(_startupClass);
+            var obj = Activator.CreateInstance(StartupClass);
             var app = ApplicationBuilder.GetInstance();
             var services = ServiceCollection.GetInstance();
 
-            MethodInfo method = _startupClass.GetMethod("ConfigureServices");
-            method.Invoke(obj, new object[] { services });
+            var configureServicesMethod = StartupClass.GetMethod("ConfigureServices");
+            if (configureServicesMethod == null) throw new ApplicationException(nameof(configureServicesMethod));
+            configureServicesMethod.Invoke(obj, new object[] { services });
 
-            method = _startupClass.GetMethod("Configure");
-            method.Invoke(obj, new object[] { app });
-            #endregion
+            var configureMethod = StartupClass.GetMethod("Configure");
+            if (configureMethod == null) throw new ApplicationException(nameof(configureMethod));
+            configureMethod.Invoke(obj, new object[] { app });
 
             Logger.Log("Server is running: localhost:8888");
+
             Console.WriteLine();
             while (true)
             {
                 Console.WriteLine("Wait for connection...");
+
                 var client = listener.AcceptTcpClient();
+
                 Console.WriteLine("Client conected");
 
                 Task.Factory.StartNew(() => HandleClient(client));
@@ -72,10 +57,13 @@ namespace WebServer
 
         private void HandleClient(TcpClient client)
         {
-            var context = new WebContext(client);
+            var asm = StartupClass.Assembly;
+            var context = new WebContext(client,asm);
 
-            ApplicationBuilder.GetInstance()
-                              .StartMiddleware(context);
+            ApplicationBuilder
+                .GetInstance()
+                .StartMiddleware(context);
+
             client.Close();
         }
     }
