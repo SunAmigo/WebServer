@@ -86,7 +86,7 @@ namespace WebServer.Core.MVC
                             //var _CastToType = new CastDelegateGenerator().Generate(parameter.ParameterType);
                             //var newValue = _CastToType(value);
 
-                            var newValue = ConverParameter(type,value);
+                            var newValue = ConvertParameter(value,type);
                             args.Add(newValue);
                             querys.Dequeue();
                         }
@@ -118,7 +118,7 @@ namespace WebServer.Core.MVC
                             }
                             var (name, value) = arg;
                             var _type = propertyInfo.PropertyType;
-                            var newValue = ConverParameter(_type,value);
+                            var newValue = ConvertParameter(value,_type);
                             propertyInfo.SetValue(obj,newValue);
                         }
                         args.Add(obj);
@@ -157,7 +157,7 @@ namespace WebServer.Core.MVC
                 .FirstOrDefault();
             return method.Invoke(null,new object [] {value});
         }
-        private static object ConverParameter(Type _type, string value)
+        private static object ConvertParameter(string value, Type _type)
         {
             if (_type == typeof(string))
             {
