@@ -38,10 +38,6 @@ namespace TestWebApp
             //        next?.Invoke(context);
             //});
 
-            app.UseMap("/index", (context) =>
-            {
-                context.Response.Write("Index");
-            });
             app.UseMap("/about", (context) =>
             {
                 context.Response.Write("About");

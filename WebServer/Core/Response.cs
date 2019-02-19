@@ -17,10 +17,7 @@ namespace WebServer.Core
 
         public Response(NetworkStream stream)
         {
-            if (stream != null)
-                _stream = stream;
-            else
-                throw new NullReferenceException(nameof(NetworkStream));
+            _stream = stream ?? throw new NullReferenceException(nameof(NetworkStream));
         }
 
         public void Write(String data)

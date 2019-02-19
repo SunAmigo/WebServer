@@ -18,5 +18,11 @@ namespace WebServer.Core.MVC
             Template = template;
             Default = _default;
         }
+        public RouteMVC(String name, String template)
+        {
+            Name = name;
+            Template = template;
+            Default = "controller=Home/action=index";
+        }
     }
 }

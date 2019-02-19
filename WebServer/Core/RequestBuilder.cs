@@ -45,11 +45,9 @@ namespace WebServer.Core
                             where tokentLine.Contains("Accept-Language")
                             select tokentLine.Split(new char[] { ':', ';' })[1].ToString())
                             .FirstOrDefault();
+
             var request = new Request(type, path, query, host, userAgent, language);
             request.Querys = ParserRequest.GET(query);
-
-            Logger.Log($"Request:{Environment.NewLine}{request}");
-            Console.WriteLine();
 
             return request;
         }

@@ -15,20 +15,22 @@ namespace WebServer.Core
 
         public Assembly Assembly { get; set; }
 
-        private TcpClient _client;
 
         public WebContext(TcpClient client,Assembly asm)
         {
-            this._client = client;
-            var (type, msg) = GetStringReqsues(_client.GetStream());
+            var (type, msg) = GetStringReqsues(client.GetStream());
             switch (type)
             {
-                case "GET": Request = RequestBuilder.GetRequest(msg); break;
+                case "GET": Request = RequestBuilder.GetRequest(msg);
+                            Request.from = client.Client.RemoteEndPoint;
+                            break;
                 default: Logger.Error("Method not recognized!"); break;
             }
-            Response = new Response(client.GetStream());
-            Assembly = asm;
+            Logger.Log($"Request:{Environment.NewLine}{Request}");
+            Console.WriteLine();
 
+            Response = new Response(client.GetStream());
+            Assembly = asm;         
         }
 
         private (String type, String msg) GetStringReqsues(NetworkStream stream)

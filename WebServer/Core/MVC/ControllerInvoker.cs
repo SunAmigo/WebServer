@@ -8,13 +8,15 @@ using WebServer.Core.MVC.Result;
 
 namespace WebServer.Core.MVC
 {
-    static class ControllerInvoker
+    public static class ControllerInvoker
     {
+        public delegate object CastToType(string value);
+
         public static void Invoke(String controller,String action,WebContext context)
         {
             var asm = context.Assembly;
-            var assembly = asm.FullName.Split(new char[] { ',' })[0];
-            var fullType = assembly + ".Controllers." + controller;
+            var _namespace = asm.FullName.Split(new char[] { ',' })[0];
+            var fullType = _namespace + ".Controllers." + controller;
 
             Type Controller = asm.GetType(fullType, false, true);
             if (Controller == null) throw new ApplicationException($"Not found controller : {controller}");
@@ -23,14 +25,13 @@ namespace WebServer.Core.MVC
             if (constructor == null) throw new ApplicationException(nameof(constructor));
             var obj = constructor.Invoke(new object[] { context });
 
-
             //MethodInfo method = Controller.GetMethods(action);//!!!!!! case
             //if (method == null) throw new ApplicationException($"Not found method of controller : {action}");
             //var ret = method.Invoke(obj, null);
             //page not found View()
 
             var methods = Controller.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(m=>String.Compare(m.Name,action)==0);
+                .Where(m=>String.Compare(m.Name,action,true)==0);
             if(methods==null) throw new ApplicationException($"Not found methods like as : {action}");
             var (method, args) = GetArguments(methods,action,context);
             var ret = method.Invoke(obj, args);
@@ -65,6 +66,7 @@ namespace WebServer.Core.MVC
                 }
                 return (method, args?.ToArray());
             }
+
             foreach (var _method in methods.Where(m=>!(m.GetParameters().Count()==0)))
             {
                 args = new List<object>();
@@ -73,13 +75,19 @@ namespace WebServer.Core.MVC
 
                 foreach (var parameter in _method.GetParameters())
                 {
-                    if (parameter.ParameterType.IsPrimitive)
+                    var type = parameter.ParameterType;
+                    var lastParameter = _method.GetParameters().LastOrDefault();
+
+                    if (parameter.ParameterType.IsPrimitive || parameter.ParameterType.IsValueType || parameter.ParameterType==typeof(String))
                     {
                         var (name, value) = querys.Peek();
-                        if (String.Compare(parameter.Name, name) == 0)
+                        if (String.Compare(parameter.Name, name,true) == 0)
                         {
-                            //...... value cast to parameter.ParameterType!
-                            args.Add(value);
+                            //var _CastToType = new CastDelegateGenerator().Generate(parameter.ParameterType);
+                            //var newValue = _CastToType(value);
+
+                            var newValue = ConverParameter(type,value);
+                            args.Add(newValue);
                             querys.Dequeue();
                         }
                         else
@@ -91,11 +99,37 @@ namespace WebServer.Core.MVC
                     }
                     else
                     {
-                       //class..
-                    }       
+                        //else class..
+                        var obj = Activator.CreateInstance(type);
+                        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                            .Where(p=>p.GetIndexParameters().Length==0);
+                        var parameters = GetObjectProperties(properties.Count(),querys);
+
+                        foreach (var propertyInfo in properties)
+                        {
+                            var arg = parameters.Where(p => string.Compare(p.Item1, propertyInfo.Name, true) == 0)
+                                .FirstOrDefault();
+
+                            if (arg.Item1==default(string) && arg.Item2==default(string))
+                            {
+                                method = null;
+                                args.Clear();
+                                break;
+                            }
+                            var (name, value) = arg;
+                            var _type = propertyInfo.PropertyType;
+                            var newValue = ConverParameter(_type,value);
+                            propertyInfo.SetValue(obj,newValue);
+                        }
+                        args.Add(obj);
+                    }
+                    if (parameter == lastParameter && querys.Count==0)
+                    {
+                        return (method, args?.ToArray());
+                    }
                 }
             }
-            return (method, args?.ToArray());
+            return default((MethodInfo,object[]));
         }
         private static  Queue<(String, String)> GetQueryQueue(Dictionary<String, String> Querys)
         {
@@ -107,6 +141,31 @@ namespace WebServer.Core.MVC
             }
             return queue;
         }
+        private static List<(String, String)> GetObjectProperties(int countParameters, Queue<(String, String)> querys)
+        {
+            var list = new List<(String, String)>();
+            for (int i = 0; i < countParameters; i++)
+            {
+                list.Add(querys.Dequeue());
+            }
+            return list;
+        }
 
+        private static object CastTo(Type type,string value)
+        {
+            MethodInfo method = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m=>m.Name=="Parse" && m.GetParameters().Length==1)
+                .FirstOrDefault();
+            return method.Invoke(null,new object [] {value});
+        }
+        private static object ConverParameter(Type _type, string value)
+        {
+            if (_type == typeof(string))
+            {
+                return value;
+            }
+
+            return CastTo(_type, value);
+        }
+       
     }
 }

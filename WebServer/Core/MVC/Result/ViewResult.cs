@@ -18,14 +18,15 @@ namespace WebServer.Core.MVC.Result
 
         public void ExecuteResult(WebContext context)
         {
-            var fullPath = Thread.GetDomain().BaseDirectory + "/../../View";
-            var dir = new System.IO.DirectoryInfo(fullPath);
-            var file = dir.GetFiles().Where(f => String.Compare(f.Name, _view) == 0 
-            || String.Compare(f.Name, _view + ".html") == 0)
+            var fullPath = Thread.GetDomain().BaseDirectory + "/../../Views";
+            var dir = new  DirectoryInfo(fullPath);
+            var file = dir.GetFiles().Where(f => String.Compare(f.Name, _view,true) == 0 
+            || String.Compare(f.Name, _view + ".html",true) == 0)
             .FirstOrDefault();
+
             if (file == null)
             {
-                throw new ApplicationException($"Not found View : {file}");
+                throw new ApplicationException($"Not found View : {fullPath+_view}");
             }
 
             var fs = file.OpenRead();

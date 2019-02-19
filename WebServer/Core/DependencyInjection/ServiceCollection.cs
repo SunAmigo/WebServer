@@ -39,7 +39,7 @@ namespace WebServer.Core.DependencyInjection
                     return (T)Activator.CreateInstance(service.ImplementationType);
                 }
             }
-            throw new Exception("");
+            throw new ArgumentOutOfRangeException($"service {nameof(T)} not found");
         }
     }
 }

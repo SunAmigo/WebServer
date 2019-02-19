@@ -15,31 +15,25 @@ namespace TestWebApp.Controllers
         {
             this.context = context;
         }
-        public IActionResult index()
+        public IActionResult Index()
         {
             //context.Response.Write("Index invoke");   
-            //return new HtmlResult("index 0");
-            //return new ViewResult("index");
-            return new Redirect();
-
-        }
-
-        public IActionResult index(Int32 id)
-        {
-            //context.Response.Write("Index invoke");   
-            //return new HtmlResult($"{id}");
+            //return "String Action";
             return new ViewResult("index");
         }
-        //public IActionResult index(int id, string msg)
-        //{
-        //    context.Response.Write("Index invoke");
-        //    return new HtmlResult($"{msg} - {id}");
-        //}
-        //public String index()
-        //{
-        //    context.Response.Write("Index invoke");
-        //    return "String Action";
-        //}
+
+        public IActionResult Index(Int32 id)
+        {
+            return new HtmlResult($"id = {id}");
+        }
+        public IActionResult Index(int id, string msg)
+        {
+            return new HtmlResult($"msg: {msg} - id: {id}");
+        }
+        public IActionResult Student(Student std)
+        {
+            return new HtmlResult($"Student:  {std.Name} - {std.Age}");
+        }
 
     }
 }

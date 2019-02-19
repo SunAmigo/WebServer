@@ -21,7 +21,15 @@ namespace WebServer.Core.MVC
 
             Regex regex = new Regex(pattern);
             MatchCollection matches = regex.Matches(path);
-            var fullPath = matches[0].Value.Split(new char[] { '/' });
+
+            var matchesString = String.Empty;
+            foreach (Match match in matches)
+            {
+                matchesString += match.Value+"/";
+            }
+            matchesString=matchesString.Remove(matchesString.Length-1);
+
+            var fullPath = matchesString.Split(new char[] { '/' });
             (controller, action) = (fullPath[0],fullPath[1]);
 
             return (controller,action);
