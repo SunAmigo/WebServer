@@ -44,20 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Home.cs" />
-    <Compile Include="EmailMessageSender.cs" />
-    <Compile Include="IMessageSender.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Services\EmailMessageSender.cs" />
+    <Compile Include="Services\IMessageSender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmsMessageSender.cs" />
+    <Compile Include="Services\SmsMessageSender.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Student.cs" />
-    <Compile Include="TimeService.cs" />
-    <Compile Include="TokenMiddleWare.cs" />
+    <Compile Include="Models\Student.cs" />
+    <Compile Include="Services\TimeService.cs" />
+    <Compile Include="MiddleWare\TokenMiddleWare.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Views\Error\400" />
+    <None Include="Views\Error\404" />
+    <None Include="Views\Error\405" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebServer\WebServer.csproj">
@@ -66,7 +69,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\index.html" />
+    <Content Include="Views\Home\index.html" />
+    <Content Include="Views\Home\Post.html" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

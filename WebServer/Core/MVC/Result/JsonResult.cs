@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace WebServer.Core.MVC.Result
 {
-    class JsonResult : IActionResult
+    public class JsonResult : IActionResult
     {
+        private dynamic _object;
+
+        public JsonResult(dynamic obj)
+        {
+            _object = obj;
+        }
         public void ExecuteResult(WebContext context)
         {
-            throw new NotImplementedException();
+            var json = JsonConvert.SerializeObject(_object,Formatting.Indented);
+            context.Response.Write(json);
         }
     }
 }

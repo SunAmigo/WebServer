@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestWebApp
+namespace TestWebApp.Services
 {
-    class EmailMessageSender : IMessageSender
+    class TimeService
     {
-        public string Send()
+        public String GetTime()
         {
-            return "Sent by Email";
+            return DateTime.Now.ToString("hh:mm:ss");
         }
     }
 }

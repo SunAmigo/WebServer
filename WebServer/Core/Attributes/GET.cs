@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestWebApp
+namespace WebServer.Core.Attributes
 {
-    class TimeService
+    public class GETAttribute : Attribute
     {
-        public String GetTime()
+        public GETAttribute()
         {
-            return DateTime.Now.ToString("hh:mm:ss");
+
         }
     }
 }

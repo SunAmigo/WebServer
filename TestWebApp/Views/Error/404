@@ -1,0 +1,6 @@
+<html>
+    <head></head>
+    <body>
+        <h1 text-align="centre">Error 404, {{info}} </h1>
+    </body>
+</html>

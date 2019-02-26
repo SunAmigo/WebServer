@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestWebApp
+namespace TestWebApp.Services
 {
-    class SmsMessageSender : IMessageSender
+    class EmailMessageSender : IMessageSender
     {
         public string Send()
         {
-            return "Sent by SMS";
+            return "Sent by Email";
         }
     }
 }

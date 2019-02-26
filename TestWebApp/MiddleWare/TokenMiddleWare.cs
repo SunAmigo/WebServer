@@ -7,7 +7,7 @@ using WebServer.Core;
 using WebServer.Core.MiddleWare;
 
 
-namespace TestWebApp
+namespace TestWebApp.MiddleWare
 {
     class TokenMiddleWare : MiddleWareBase
     {

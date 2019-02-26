@@ -79,13 +79,17 @@ namespace WebServer.Core.Configuration
 
         public void StartMiddleware(WebContext context)
         {
-            _MVC(context);
-            _Map(context);
-            _Use(context);          
+            if (_routeMVC != null) _MVC(context);
+
+            if (context.Request.type == WebContext.TypeRequest.GET)
+            {
+                _Map(context);
+                _Use(context);
+            }
         }
         private void _Use(WebContext context)
         {
-            if (context == null) throw new Exception();
+            if (context == null) throw new NullReferenceException(nameof(context));
             _root?.Invoke(context);
         }
         private void  _Map(WebContext context)
@@ -114,14 +118,7 @@ namespace WebServer.Core.Configuration
             {
                  (controller, action) = ParserRoute.GetMVC(_routeMVC, path);
             }
-            else
-            {
-                //..
-                return;
-            }
             ControllerInvoker.Invoke(controller, action, context);
-
         }
-
     }
 }

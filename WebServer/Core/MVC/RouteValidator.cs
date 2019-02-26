@@ -11,14 +11,14 @@ namespace WebServer.Core.MVC
     {
         public static bool IsValid(RouteMVC route,String path)
         {
-            var pattern = route.Template;
-            pattern=pattern.Replace("{controller}","[a-z]+")
+            var pattern= route.Template.Replace("{controller}","[a-z]+")
                 .Replace("{action}", "[a-z]+");
 
             if (Regex.IsMatch(path, pattern, RegexOptions.IgnoreCase))
             {
                 return true;
             }
+
             return false;
 
         }

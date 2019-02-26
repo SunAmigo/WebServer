@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
-using System.Reflection;
 using WebServer.Core;
 using WebServer.Core.Configuration;
 using WebServer.Core.DependencyInjection;
@@ -19,9 +18,12 @@ namespace WebServer
         public Type StartupClass { get; set; }   
         public string WebRootPath { get; set; }
 
+        private Int32 _port;
+
         public WebHost(Int32 port)
         {
             listener = new TcpListener(IPAddress.Any, port);
+            _port = port;
         }
 
         public void Run()
@@ -40,7 +42,7 @@ namespace WebServer
             if (configureMethod == null) throw new ApplicationException(nameof(configureMethod));
             configureMethod.Invoke(obj, new object[] { app });
 
-            Logger.Log("Server is running: localhost:8888");
+            Logger.Log($"Server is running: localhost:{_port}");
 
             Console.WriteLine();
             while (true)
@@ -57,14 +59,25 @@ namespace WebServer
 
         private void HandleClient(TcpClient client)
         {
-            var asm = StartupClass.Assembly;
-            var context = new WebContext(client,asm);
+            try
+            {
+                var asm = StartupClass.Assembly;
+                var context = new WebContext(client, asm);
+                context.Initialize();
 
-            ApplicationBuilder
-                .GetInstance()
-                .StartMiddleware(context);
+                ApplicationBuilder
+                    .GetInstance()
+                    .StartMiddleware(context);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{ex.Message}");
+            }
+            finally
+            {
+                client.Close();
 
-            client.Close();
+            }
         }
     }
 }

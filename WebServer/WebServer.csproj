@@ -31,7 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
@@ -44,16 +48,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Attributes\GET.cs" />
+    <Compile Include="Core\Attributes\POST.cs" />
     <Compile Include="Core\Configuration\ApplicationBuilder.cs" />
     <Compile Include="Core\DependencyInjection\IServiceCollection.cs" />
     <Compile Include="Core\DependencyInjection\Service.cs" />
     <Compile Include="Core\DependencyInjection\ServiceCollection.cs" />
+    <Compile Include="Core\Requests\GET.cs" />
     <Compile Include="Core\MVC\ControllerInvoker.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\MiddleWare\IMiddleWare.cs" />
     <Compile Include="Core\MiddleWare\MiddleWare.cs" />
     <Compile Include="Core\MiddleWare\MiddleWareBase.cs" />
-    <Compile Include="Core\MVC\CastDelegateGenerator.cs" />
     <Compile Include="Core\MVC\Result\HtmlResult.cs" />
     <Compile Include="Core\MVC\Result\IActionResult.cs" />
     <Compile Include="Core\MVC\Result\JsonResult.cs" />
@@ -62,9 +68,10 @@
     <Compile Include="Core\MVC\RouteMVC.cs" />
     <Compile Include="Core\MVC\RouteValidator.cs" />
     <Compile Include="Core\MVC\Result\ViewResult.cs" />
-    <Compile Include="Core\ParserRequest.cs" />
-    <Compile Include="Core\Request.cs" />
-    <Compile Include="Core\RequestBuilder.cs" />
+    <Compile Include="Core\Requests\ParserRequest.cs" />
+    <Compile Include="Core\Requests\POST.cs" />
+    <Compile Include="Core\Requests\Request.cs" />
+    <Compile Include="Core\Requests\RequestBuilder.cs" />
     <Compile Include="Core\Response.cs" />
     <Compile Include="Core\ShareInfo.cs" />
     <Compile Include="Core\WebContext.cs" />

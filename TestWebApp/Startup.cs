@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebServer.Core.DependencyInjection;
+﻿using WebServer.Core.DependencyInjection;
 using WebServer.Core.Configuration;
-using WebServer.Core.MVC;
+using TestWebApp.Services;
 
 namespace TestWebApp
 {
@@ -31,11 +26,11 @@ namespace TestWebApp
             //    var sender = context.GetService<IMessageSender>();
             //    var time = context.GetService<TimeService>();
 
-            //        //context.Response.Write(sender.Send());              
-            //        context.Response.Write(time.GetTime());
+            //    //context.Response.Write(sender.Send());              
+            //    context.Response.Write(time.GetTime());
 
-            //        //context.Response.Write(context.items["cache"]);
-            //        next?.Invoke(context);
+            //    //context.Response.Write(context.items["cache"]);
+            //    next?.Invoke(context);
             //});
 
             app.UseMap("/about", (context) =>
@@ -51,8 +46,8 @@ namespace TestWebApp
             //app.UseMiddleWare<TokenMiddleWare>();
 
             app.UseMVC(
-                name     : "default",
-                template : @"{controller}/{action}",
+                name: "default",
+                template: @"{controller}/{action}",
                 _default: "controller=Home/action=index"
                 );
         }

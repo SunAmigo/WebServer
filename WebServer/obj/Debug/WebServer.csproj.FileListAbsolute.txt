@@ -7,7 +7,6 @@ C:\Users\volod\Source\Repos\WebServer\WebServer\bin\Debug\System.ValueTuple.xml
 C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.csproj.CopyComplete
 C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.dll
 C:\Users\volod\Source\Repos\WebServer\WebServer\obj\Debug\WebServer.pdb
-E:\Education\Development\Projects\C#\WebServer\WebServer\obj\Debug\WebServer.csprojAssemblyReference.cache
 E:\Education\Development\Projects\C#\WebServer\WebServer\obj\Debug\WebServer.csproj.CoreCompileInputs.cache
 E:\Education\Development\Projects\C#\WebServer\WebServer\obj\Debug\WebServer.dll
 E:\Education\Development\Projects\C#\WebServer\WebServer\obj\Debug\WebServer.pdb
@@ -16,3 +15,7 @@ E:\Education\Development\Projects\C#\WebServer\WebServer\bin\Debug\WebServer.pdb
 E:\Education\Development\Projects\C#\WebServer\WebServer\bin\Debug\System.ValueTuple.dll
 E:\Education\Development\Projects\C#\WebServer\WebServer\bin\Debug\System.ValueTuple.xml
 E:\Education\Development\Projects\C#\WebServer\WebServer\obj\Debug\WebServer.csproj.CopyComplete
+E:\Education\Development\Projects\C#\WebServer\WebServer\bin\Debug\Newtonsoft.Json.dll
+E:\Education\Development\Projects\C#\WebServer\WebServer\bin\Debug\Newtonsoft.Json.pdb
+E:\Education\Development\Projects\C#\WebServer\WebServer\bin\Debug\Newtonsoft.Json.xml
+E:\Education\Development\Projects\C#\WebServer\WebServer\obj\Debug\WebServer.csprojAssemblyReference.cache

@@ -22,3 +22,6 @@ E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\System.Value
 E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\WebServer.pdb
 E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\System.ValueTuple.xml
 E:\Education\Development\Projects\C#\WebServer\TestWebApp\obj\Debug\TestWebApp.csproj.CopyComplete
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\Newtonsoft.Json.dll
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\Newtonsoft.Json.pdb
+E:\Education\Development\Projects\C#\WebServer\TestWebApp\bin\Debug\Newtonsoft.Json.xml

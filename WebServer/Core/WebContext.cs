@@ -1,62 +1,82 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Sockets;
-using System.IO;
 using WebServer.Core.DependencyInjection;
+using WebServer.Core.MVC.Result;
+using WebServer.Core.Requests;
 using System.Reflection;
+using System.Text;
 
 namespace WebServer.Core
 {
     public class WebContext
     {
+        public enum TypeRequest
+        {
+            GET, POST
+        };
+
+        public enum TypeError
+        {
+            _200=200, _404 = 404, _405 = 405
+        };
+
+
         public ShareInfo items { get; } = new ShareInfo();
-        public Request Request { get; }
-        public Response Response { get; }
+        public Request Request { get; set; }
+        public Response Response { get; set; }
 
         public Assembly Assembly { get; set; }
+
+        public TcpClient client { get; set; }
 
 
         public WebContext(TcpClient client,Assembly asm)
         {
-            var (type, msg) = GetStringReqsues(client.GetStream());
-            switch (type)
-            {
-                case "GET": Request = RequestBuilder.GetRequest(msg);
-                            Request.from = client.Client.RemoteEndPoint;
-                            break;
-                default: Logger.Error("Method not recognized!"); break;
-            }
+            this.client = client;
+            Assembly = asm;
+        }
+
+        public void Initialize()
+        {
+            Response = new Response(client.GetStream());
+            var (type,msg) = GetTypeRequest(client.GetStream());
+
+            Request = RequestBuilder.InitializeRequest(msg, client, type);
+
             Logger.Log($"Request:{Environment.NewLine}{Request}");
             Console.WriteLine();
 
-            Response = new Response(client.GetStream());
-            Assembly = asm;         
         }
 
-        private (String type, String msg) GetStringReqsues(NetworkStream stream)
+        private (TypeRequest,string) GetTypeRequest(NetworkStream stream)
         {
             const char newLine = '\n';
-
-            var reader = new StreamReader(stream);
             var msg = default(String);
 
-            while (reader.Peek() != -1)
+            byte[] buffer = new byte[1024];
+            
+            
+            while (stream.DataAvailable)
             {
-                msg += reader.ReadLine() + newLine;
+                stream.Read(buffer, 0, buffer.Length);
+                msg += Encoding.ASCII.GetString(buffer).TrimEnd();
             }
-
             if (msg == null)
             {
-                Logger.Error("Request string is empty");
                 throw new Exception("Request string is empty");
             }
-
-            var type = (from line in msg.Split(newLine)
-                        where line.Contains("HTTP")
-                        select line.Split(' ')[0].ToString())
-                       .FirstOrDefault() ?? String.Empty;
-
-            return (type, msg);
+            var typeString = msg.Split(newLine).FirstOrDefault().Split(' ')[0].ToString() ?? String.Empty;
+            var type = default(TypeRequest);
+            switch (typeString)
+            {
+                case "GET":  type = TypeRequest.GET; break;
+                case "POST": type = TypeRequest.POST; break;
+                default:
+                    ViewResult.Render(TypeError._405, this);
+                    throw new Exception("Method not recognized!");
+            }
+            return (type,msg);
         }
 
         public T GetService<T>()

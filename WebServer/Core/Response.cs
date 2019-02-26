@@ -8,7 +8,7 @@ namespace WebServer.Core
 {
     public class Response
     {
-        private bool _connected = true;
+        private bool _canWrite = true;
         private NetworkStream _stream;
 
         public String Status { get; set; } = "200 OK";
@@ -22,8 +22,7 @@ namespace WebServer.Core
 
         public void Write(String data)
         {
-            if (_connected == true) _write(data);
-            //Console.WriteLine();
+            if (_canWrite) _write(data);
         }
         private void _write(String data)
         {
@@ -52,7 +51,7 @@ namespace WebServer.Core
             }
             finally
             {
-                _connected = false;
+                _canWrite = false;
             }
         }
     }
